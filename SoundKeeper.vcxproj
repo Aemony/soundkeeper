@@ -78,9 +78,9 @@
     <ConfigurationType>Application</ConfigurationType>
     <ProjectName>SoundKeeper</ProjectName>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset Condition="'$(Platform)'!='ARM64'">v142</PlatformToolset>
+    <PlatformToolset Condition="'$(Platform)'!='ARM64'">v143</PlatformToolset>
     <PlatformToolset Condition="'$(Platform)'=='ARM64'">v143</PlatformToolset>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
@@ -180,6 +180,9 @@
     <PreBuildEvent>
       <Command>BuildInfo.cmd --no-errors</Command>
     </PreBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>appcompat.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -200,6 +203,9 @@
     <PreBuildEvent>
       <Command>BuildInfo.cmd --no-errors</Command>
     </PreBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>appcompat.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
@@ -244,6 +250,9 @@
     <PreBuildEvent>
       <Command>BuildInfo.cmd --no-errors</Command>
     </PreBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>appcompat.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
     <ClCompile>
@@ -268,6 +277,9 @@
     <PreBuildEvent>
       <Command>BuildInfo.cmd --no-errors</Command>
     </PreBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>appcompat.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|ARM64'">
     <ClCompile>
@@ -327,6 +339,9 @@
     <PreBuildEvent>
       <Command>BuildInfo.cmd --no-errors</Command>
     </PreBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>appcompat.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -361,6 +376,9 @@
     <PreBuildEvent>
       <Command>BuildInfo.cmd --no-errors</Command>
     </PreBuildEvent>
+    <Manifest>
+      <AdditionalManifestFiles>appcompat.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
