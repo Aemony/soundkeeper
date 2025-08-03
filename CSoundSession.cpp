@@ -230,7 +230,7 @@ DWORD CSoundSession::RenderingThread()
 
 		case RenderingMode::Retry:
 
-			if (g_is_leaky_wasapi && m_play_attempts > 100)
+			if (g_is_leaky_wasapi && m_play_attempts > 1000)
 			{
 				DebugLog("Attempts limit. Stop.");
 				m_curr_mode = RenderingMode::Stop;
@@ -238,7 +238,7 @@ DWORD CSoundSession::RenderingThread()
 			}
 
 			// m_play_attempts is 0 when it was interrupted while playing (when rendering was initialized without errors).
-			delay = (m_play_attempts == 0 ? 100UL : 750UL);
+			delay = (m_play_attempts == 0 ? 100UL : 1000UL);
 
 			DebugLog("Retry in %dms. Attempt: #%d.", delay, m_play_attempts);
 			m_curr_mode = g_is_leaky_wasapi ? RenderingMode::TryOpenDevice : RenderingMode::Rendering;
@@ -289,7 +289,9 @@ CSoundSession::RenderingMode CSoundSession::TryOpenDevice()
 
 	if (FAILED(hr))
 	{
-		if (hr == AUDCLNT_E_DEVICE_IN_USE)
+		// According to the WASAPI docs, AUDCLNT_E_DEVICE_IN_USE (0x8889000A) should be returned when a device is busy.
+		// It's true when WASAPI exclusive is used. But when ASIO is used, HRESULT of ERROR_BUSY (0x800700AA) is returned.
+		if (hr == AUDCLNT_E_DEVICE_IN_USE || hr == HRESULT_FROM_WIN32(ERROR_BUSY))
 		{
 			DebugLogWarning("Unable to initialize audio client: 0x%08X (device is being used in exclusive mode).", hr);
 			return RenderingMode::WaitExclusive;
@@ -401,7 +403,9 @@ CSoundSession::RenderingMode CSoundSession::Rendering()
 
 	if (FAILED(hr))
 	{
-		if (hr == AUDCLNT_E_DEVICE_IN_USE)
+		// According to the WASAPI docs, AUDCLNT_E_DEVICE_IN_USE (0x8889000A) should be returned when a device is busy.
+		// It's true when WASAPI exclusive is used. But when ASIO is used, HRESULT of ERROR_BUSY (0x800700AA) is returned.
+		if (hr == AUDCLNT_E_DEVICE_IN_USE || hr == HRESULT_FROM_WIN32(ERROR_BUSY))
 		{
 			DebugLogWarning("Unable to initialize audio client: 0x%08X (device is being used in exclusive mode).", hr);
 			exit_mode = RenderingMode::WaitExclusive;
